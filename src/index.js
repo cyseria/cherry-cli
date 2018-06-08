@@ -1,16 +1,26 @@
-import './style.css';
-import Icon from './img.jpeg';
+import './access/style.css';
 
-function component() {
-    var element = document.createElement('div');
-    var btn = document.createElement('button');
-    var myIcon = new Image();
-    myIcon.src = Icon;
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Route } from 'react-router-dom'
 
-    btn.innerHTML = 'Click me and check the console!';
-    element.appendChild(btn);
-    element.appendChild(myIcon);
-    return element;
-}
+import Header from './components/Header/index';
+import List from './components/List/index';
+import Detail from './components/Detail';
 
-document.body.appendChild(component());
+const App = () => {
+    return (
+        <div>
+            <Header />
+            <List />
+        </div>);
+};
+
+ReactDOM.render((
+    <BrowserRouter>
+        <div>
+            <Route exact path="/" component={App}></Route>
+            <Route path="/detail/:id" component={Detail}></Route>
+        </div>
+    </BrowserRouter>
+), document.getElementById("app"));

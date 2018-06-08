@@ -2,7 +2,7 @@
  * @Author: Cyseria
  * @Date: 2018-06-08 14:05:40
  * @LastEditors: Cyseria
- * @LastEditTime: 2018-06-08 14:12:03
+ * @LastEditTime: 2018-06-08 15:32:24
  * @Description: 用于生成目录的脚本
  */
 
@@ -28,7 +28,7 @@ readdir(galleryDir)
         });
         // 这里生成
         fs.writeFile(path.resolve(process.cwd(), './src/gallery/config.js'), `
-         export default ${JSON.stringify(galleryList)}
+        module.exports = ${JSON.stringify(galleryList)}
         `, function (err) {
             if (err) throw err;
             console.log('文件写入成功');

@@ -3,7 +3,7 @@
  * @author Cyseria <xcyseria@gmail.com> 
  * @created time: 2018-06-07 22:37:25
  * @last modified by: Cyseria
- * @last modified time: 2018-06-09 21:36:19
+ * @last modified time: 2018-06-09 22:18:42
  */
 
 const program = require('commander');
@@ -57,9 +57,21 @@ program
     .command('publish [url]')
     .description('publish your scffold 😄 ')
     .action(function (url) {
-        if (!url) {
-
-        }
+        inquirer
+            .prompt([
+                {
+                    type: 'input',
+                    name: 'url',
+                    message: "repo url(github || gitlab || iCode): ",
+                    when: function () {
+                        return !url;
+                    }
+                }
+            ])
+            .then(answers => {
+                const scaffoldRemoteUrl = url || answers.url;
+                require('./cherry-publish')(scaffoldRemoteUrl);
+            });
         // 检查 url 信息
     })
 

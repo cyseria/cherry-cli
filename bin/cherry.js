@@ -1,13 +1,16 @@
-/*
- * @Author: Cyseria
- * @Date: 2018-06-07 22:37:25
- * @LastEditors: Cyseria
- * @LastEditTime: 2018-06-08 15:28:37
- * @Description: 入口文件
+/**
+ * @file 命令行入口文件
+ * @author Cyseria <xcyseria@gmail.com> 
+ * @created time: 2018-06-07 22:37:25
+ * @last modified by: Cyseria
+ * @last modified time: 2018-06-09 21:36:19
  */
 
 const program = require('commander');
 const inquirer = require('inquirer');
+const chalk = require('chalk');
+const log = console.log;
+
 const pkg = require('../package.json');
 const scaffoldPath = require('../src/gallery/config');
 
@@ -17,26 +20,47 @@ program
 
 // 项目初始化
 program
-    .command('init [path]')
+    .command('init [conf...]')
     .description('init project with scaffold')
-    .action(function (path) {
-        // TODO 获取脚手架信息
+    .action(function (conf) {
+        const inputName = conf[0];
+        const inputScaffold = conf[1];
         inquirer
             .prompt([
                 {
+                    type: 'input',
+                    name: 'projectName',
+                    message: "project name: ",
+                    when: function () {
+                        return !inputName;
+                    }
+                },
+                {
                     type: 'list',
                     name: 'scaffold',
-                    message: '选择一个你想用的脚手架吧 💪 : ',
+                    message: 'choose a scaffold: ',
                     choices: scaffoldPath,
-                    filter: function (val) {
-                        return val.toLowerCase();
+                    when: function () {
+                        return !inputScaffold;
                     }
                 }
             ])
             .then(answers => {
-                const {scaffold} = answers;
-                require('./cherry-init')(path, scaffold)
+                const name = inputName || answers.projectName;
+                const scaffold = inputScaffold || answers.scaffold;
+                require('./cherry-init')(name, scaffold)
             });
+    })
+
+// 发布脚手架
+program
+    .command('publish [url]')
+    .description('publish your scffold 😄 ')
+    .action(function (url) {
+        if (!url) {
+
+        }
+        // 检查 url 信息
     })
 
 program.parse(process.argv);

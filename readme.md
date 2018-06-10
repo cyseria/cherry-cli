@@ -34,31 +34,14 @@ cherry search [tag]
 cherry set serverAddress [path]
 ```
 
-### 发布自己的脚手架
-```bash
-# 对接自己的服务器
-cherry publish [path]
+
+## More
+处于安全原因, github 的 token 就没有放上来了, 位于 `/bin/utils/token.js` 中
+
+```
+module.exports = 'xxxx';
 ```
 
-## web 相关
-> 这里是脚手架市场可视化页面的一些东西。主要维护列表和样式修改等
+## FEATURE
 
-### 💪 待集成进工作流中
-
-首先为 脚手架 们生成一个 config（需要有 readme.md）
-从远程拉数据 & 本地各都维护一份，只拉 readme 和 cherry.config.js
-```
-npm run gen
-```
-
-### 开发
-```
-npm run dev
-```
-
-### 构建
-```
-npm run build
-```
-
-## TODO
+- token 和 servername 抽成配置项

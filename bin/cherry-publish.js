@@ -12,8 +12,6 @@ const inquirer = require('inquirer');
 const GitHub = require('github-api');
 
 const token = require('./utils/token');
-
-console.log(token)
 var gh = new GitHub({
     token: token
 });

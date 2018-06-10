@@ -3,16 +3,15 @@
  * @author Cyseria <xcyseria@gmail.com> 
  * @created time: 2018-06-07 22:37:25
  * @last modified by: Cyseria
- * @last modified time: 2018-06-09 22:18:42
+ * @last modified time: 2018-06-10 14:28:32
  */
 
 const program = require('commander');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
-const log = console.log;
 
 const pkg = require('../package.json');
-const scaffoldPath = require('../src/gallery/config');
+const log = console.log;
 
 // 版本信息
 program
@@ -25,31 +24,7 @@ program
     .action(function (conf) {
         const inputName = conf[0];
         const inputScaffold = conf[1];
-        inquirer
-            .prompt([
-                {
-                    type: 'input',
-                    name: 'projectName',
-                    message: "project name: ",
-                    when: function () {
-                        return !inputName;
-                    }
-                },
-                {
-                    type: 'list',
-                    name: 'scaffold',
-                    message: 'choose a scaffold: ',
-                    choices: scaffoldPath,
-                    when: function () {
-                        return !inputScaffold;
-                    }
-                }
-            ])
-            .then(answers => {
-                const name = inputName || answers.projectName;
-                const scaffold = inputScaffold || answers.scaffold;
-                require('./cherry-init')(name, scaffold)
-            });
+        require('./cherry-init')(inputName, inputScaffold);
     })
 
 // 发布脚手架
@@ -75,4 +50,10 @@ program
         // 检查 url 信息
     })
 
+program
+    .command('list')
+    .description('find all scaffolds in market')
+    .action(function () {
+        require('./cherry-list')();
+    })
 program.parse(process.argv);

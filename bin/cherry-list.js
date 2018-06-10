@@ -1,9 +1,9 @@
 /**
  * @file 获取列表信息
- * @author Cyseria <xcyseria@gmail.com> 
- * @created time: 2018-06-10 10:23:42 
+ * @author Cyseria <xcyseria@gmail.com>
+ * @created time: 2018-06-10 10:23:42
  * @last modified by: Cyseria
- * @last modified time: 2018-06-10 15:26:53
+ * @last modified time: 2018-06-10 20:53:14
  */
 
 const request = require('superagent');
@@ -20,8 +20,8 @@ module.exports = async function (path, source) {
             console.log(` * ${chalk.blue(name)}${chalk.gray(`(${owner})`)}: ${description}`);
             console.log(`   tags: [${tags.join(', ')}]`);
             console.log(`   url: ${url}`);
-        })
+        });
     } catch (err) {
         console.log(chalk.red(err));
     }
-}
+};

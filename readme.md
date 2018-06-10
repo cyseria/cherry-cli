@@ -17,13 +17,24 @@
 ```
 npm install cherry -g
 ```
+
 ### 初始化
 ```bash
 # 初始化项目，支持创建多层级的文件夹 init demo/a/b/c
 cherry init [path]
 ```
 
-### 从市场上搜索脚手架
+### 查看所有脚手架
+```bash
+cherry list
+```
+
+### 发布自己的脚手架
+```bash
+cherry publish [url]
+```
+
+### 从市场上搜索脚手架(todo)
 ```bash
 cherry search [tag]
 ```
@@ -33,7 +44,6 @@ cherry search [tag]
 # 对接自己的服务器
 cherry set serverAddress [path]
 ```
-
 
 ## More
 处于安全原因, github 的 token 就没有放上来了, 位于 `/bin/utils/token.js` 中

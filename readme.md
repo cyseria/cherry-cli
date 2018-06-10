@@ -1,34 +1,43 @@
 # cherry scaffold
 
-一个有评审的内部脚手架市场。
+[![build status](https://img.shields.io/travis/cyseria/cherry-scaffold/master.svg?style=flat-square)](https://travis-ci.org/cyseria/cherry-scaffold)
+[![Test coverage](https://img.shields.io/codecov/c/github/cyseria/cherry-scaffold.svg?style=flat-square)](https://codecov.io/github/cyseria/cherry-scaffold?branch=master)
+[![NPM version](https://img.shields.io/npm/v/cherry-scaffold.svg?style=flat-square)](https://www.npmjs.com/package/cherry-scaffold)
+[![NPM Downloads](https://img.shields.io/npm/dm/cherry-scaffold.svg?style=flat-square&maxAge=43200)](https://www.npmjs.com/package/cherry-scaffold)
+
+一个脚手架市场命令行版，[default server demo](https://github.com/cyseria/cherry-scaffold-server), [default web demo](https://github.com/cyseria/cherry-scaffold-web)。
 
 ## Why Cherry
 想着起这轮子的时候刚好在吃，而且觉得这单词很可爱呀 😀
 
 ## how to use
-脚手架初始化（还没发布，暂时用 `node ./bin/cherry.js init [path]` 替代）
+脚手架初始化（还没发布，暂时用 `node ./bin/cherry.js xxx` 替代）
 
+### 安装
 ```
 npm install cherry -g
-cherry init [path]
 ```
-## 脚本相关
-> cherry 的一些相关命令说明
-
+### 初始化
 ```bash
 # 初始化项目，支持创建多层级的文件夹 init demo/a/b/c
 cherry init [path]
-# 发布自己的项目
-cherry publish [url]
-eg. cherry publish http://xxx
-拉项目的 .cherry.config 信息 或者 readme 的头部（一定规范）
-# 查找
-cherry search [tag]
+```
 
-# 使用主题
-cherry set theme
-# server?
-部署到自己的服务器
+### 从市场上搜索脚手架
+```bash
+cherry search [tag]
+```
+
+### 配置信息
+```bash
+# 对接自己的服务器
+cherry set serverAddress [path]
+```
+
+### 发布自己的脚手架
+```bash
+# 对接自己的服务器
+cherry publish [path]
 ```
 
 ## web 相关
@@ -51,3 +60,5 @@ npm run dev
 ```
 npm run build
 ```
+
+## TODO

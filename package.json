@@ -7,8 +7,6 @@
     "cherry": "./bin/cherry.js"
   },
   "scripts": {
-    "dev": "webpack-dev-server --mode development --open",
-    "build": "webpack --mode production",
     "gen": "node ./src/utils/generateDir.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,30 +19,11 @@
     "github-api": "^3.0.0",
     "gray-matter": "^4.0.1",
     "inquirer": "^6.0.0",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0",
-    "react-router-dom": "^4.3.1",
     "request": "^2.87.0",
     "url": "^0.11.0"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-transform-object-assign": "^6.22.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "clean-webpack-plugin": "^0.1.19",
-    "css-loader": "^0.28.11",
-    "cz-customizable": "^5.2.0",
-    "file-loader": "^1.1.11",
-    "html-webpack-plugin": "^3.2.0",
-    "markdown-it": "^8.4.1",
-    "style-loader": "^0.21.0",
-    "webpack": "^4.11.1",
-    "webpack-cli": "^3.0.3",
-    "webpack-dev-server": "^3.1.4"
+    "cz-customizable": "^5.2.0"
   },
   "config": {
     "commitizen": {

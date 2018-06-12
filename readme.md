@@ -24,6 +24,20 @@ npm install cherry -g
 cherry init [path]
 ```
 
+### 配置项目基础信息
+```bash
+cherry config set <key> <value>
+cherry config list
+cherry config delete <key>
+```
+
+通常我们需要配置的是 `github token`, 和 `server` 地址信息
+
+```bash
+cherry config set token <your github token>
+cherry config set server 'http://localhost:3000/cherry'
+```
+
 ### 查看所有脚手架
 ```bash
 cherry list
@@ -31,25 +45,21 @@ cherry list
 
 ### 发布自己的脚手架
 ```bash
-cherry publish [url]
+cherry publish <url>
 ```
+
+默认发布到默认 server 地址上, 如果使用自己搭建的 server, 需要实现以下几个接口
+
+- 获取简单列表
+    `${baseUrl}/simple-list`,返回脚手架列表里的标题信息, 数组对象, 例如 `['vue-vuex', 'react-mobx', 'riot-simple']`
+- 获取列表详情
+    `${baseUrl}/` 当参数为空时返回所有信息, 根据参数字段进行搜索匹配. 例如 `?name=react`
+- 发布数据
+    `${baseUrl}/publish`, publish 时调用
 
 ### 从市场上搜索脚手架(todo)
 ```bash
-cherry search [tag]
-```
-
-### 配置信息
-```bash
-# 对接自己的服务器
-cherry set serverAddress [path]
-```
-
-## More
-处于安全原因, github 的 token 就没有放上来了, 位于 `/bin/utils/token.js` 中
-
-```
-module.exports = 'xxxx';
+cherry search <tag>
 ```
 
 ## FEATURE

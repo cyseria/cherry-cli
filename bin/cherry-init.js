@@ -3,7 +3,7 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-07 23:43:46
  * @last modified by: Cyseria
- * @last modified time: 2018-06-10 20:46:29
+ * @last modified time: 2018-06-12 00:24:18
  */
 
 const nps = require('path');
@@ -24,6 +24,7 @@ async function getList() {
         return body;
     } catch (err) {
         console.log(chalk.red(err));
+        process.exit();
     }
 }
 
@@ -70,7 +71,6 @@ async function getFinalData(inputName, inputScaffold) {
 module.exports = async function (inputName, inputScaffold) {
     const { projectName, scaffoldName } = await getFinalData(inputName, inputScaffold);
     const path = projectName || process.cwd();
-    console.log(projectName, scaffoldName);
 
     // 文件存在 TODO: 里面没有内容的跳过
     if (fsExtra.existsSync(path)) {
@@ -83,7 +83,8 @@ module.exports = async function (inputName, inputScaffold) {
     const url = await getScaffoldInfo(scaffoldName).url;
     try {
         console.log(chalk.gray(`clone project from ${url}, please wait a min...`));
-        await child.execSync(`git clone ${url} ${projectName} `);
+        
+        child.execSync(`git clone ${url} ${projectName} `);
         // 移除 git 版本控制信息
         const destPath = nps.join(process.cwd(), projectName, '.git');
         fsExtra.removeSync(destPath);

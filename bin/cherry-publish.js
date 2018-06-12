@@ -3,7 +3,7 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-09 21:49:31
  * @last modified by: Cyseria
- * @last modified time: 2018-06-10 21:39:54
+ * @last modified time: 2018-06-12 00:30:01
  */
 
 const url = require('url');
@@ -12,11 +12,8 @@ const request = require('superagent');
 const inquirer = require('inquirer');
 const GitHub = require('github-api');
 
-const token = require('./utils/token');
 const API = require('./utils/api');
-const gh = new GitHub({
-    token: token
-});
+const jsonFileOperate = require('./utils/jsonFileOperate');
 
 function trimSlash(path) {
     return path.charAt(0) === '/' ? path.slice(1) : path;
@@ -82,6 +79,16 @@ async function getUserCheckedData(data) {
  * @return {Promise} 接口获取到的数据
  */
 function getRepoDetail(owner, name) {
+    const token = jsonFileOperate.get('token');
+    console.log('token', token)
+    if (!token) {
+        console.log(chalk.red('please add token first: \n cherry config set token <your github token>'));
+        process.exit(1);
+    }
+    const gh = new GitHub({
+        token: token
+    });
+
     const repo = gh.getRepo(owner, name);
     return new Promise((resolve, reject) => {
         repo.getDetails((err, data) => {

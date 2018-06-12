@@ -3,7 +3,7 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-07 22:37:25
  * @last modified by: Cyseria
- * @last modified time: 2018-06-10 21:08:05
+ * @last modified time: 2018-06-11 23:27:37
  */
 
 const program = require('commander');
@@ -39,6 +39,24 @@ program
     .description('publish your scffold 😄 ')
     .action(function (url) {
         require('./cherry-publish')(url);
+    });
+
+// 配置信息
+program
+    .command('config [conf...]')
+    .description('config operate 😄 ')
+    .action(function (conf) {
+        if (conf.length === 0) {
+            const prefix = `${chalk.bold('cherry')} ${chalk.red('ERR!')}`;
+            console.log([
+                `${prefix} Usage:`,
+                `${prefix} cherry config set <key> <value>:`,
+                `${prefix} cherry config get <key>:`,
+                `${prefix} cherry config delete <key>:`,
+                `${prefix} cherry config list:`,
+            ].join('\n'));
+        }
+        require('./cherry-config')(conf);
     });
 program.parse(process.argv);
 

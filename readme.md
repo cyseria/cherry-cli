@@ -1,14 +1,20 @@
-# cherry scaffold
+# CHERRY-CHERRY
 
 [![build status](https://img.shields.io/travis/cyseria/cherry-scaffold/master.svg?style=flat-square)](https://travis-ci.org/cyseria/cherry-scaffold)
 [![Test coverage](https://img.shields.io/codecov/c/github/cyseria/cherry-scaffold.svg?style=flat-square)](https://codecov.io/github/cyseria/cherry-scaffold?branch=master)
 [![NPM version](https://img.shields.io/npm/v/cherry-scaffold.svg?style=flat-square)](https://www.npmjs.com/package/cherry-scaffold)
 [![NPM Downloads](https://img.shields.io/npm/dm/cherry-scaffold.svg?style=flat-square&maxAge=43200)](https://www.npmjs.com/package/cherry-scaffold)
 
-一个脚手架市场命令行版，[default server demo](https://github.com/cyseria/cherry-scaffold-server), [default web demo](https://github.com/cyseria/cherry-scaffold-web)。
+一个脚手架市场命令行版:
 
-## Why Cherry
-想着起这轮子的时候刚好在吃，而且觉得这单词很可爱呀 😀
+全家桶系列:
+- [server in leanCloud](https://github.com/cyseria/cherry-leancloud-server): 基于 leancloud 部署的测试服务
+- [default server demo](https://github.com/cyseria/cherry-default-server): 一个基于 koa 起的本地服务, 暂时没有上数据库
+- [default web demo](https://github.com/cyseria/cherry-default-web): 一个可视化的 web 页面
+
+## Why cherry-cherry
+想着起这轮子的时候刚好在吃，觉得这单词很可爱 😀
+然而 npm 上的 cherry 已经被人占坑的, 为了方便记忆(懒得想名), 就变成了 `cherry-cherry`
 
 ## how to use
 脚手架初始化（还没发布，暂时用 `node ./bin/cherry.js xxx` 替代）
@@ -35,8 +41,10 @@ cherry config delete <key>
 
 ```bash
 cherry config set token <your github token>
-cherry config set server 'http://localhost:3000/cherry'
+cherry config set server <your server address>
 ```
+
+eg. `cherry config set server 'http://localhost:3000/cherry'`
 
 ### 查看所有脚手架
 ```bash
@@ -57,11 +65,7 @@ cherry publish <url>
 - 发布数据
     `${baseUrl}/publish`, publish 时调用
 
-### 从市场上搜索脚手架(todo)
-```bash
-cherry search <tag>
-```
-
 ## FEATURE
 
-- token 和 servername 抽成配置项
+- `cherry login`
+- `cherry search <tag>`

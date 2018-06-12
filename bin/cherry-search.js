@@ -6,7 +6,7 @@
  * @last modified time: 2018-06-10 20:53:50
  */
 
-const Table = require('cli-table2');
+const Table = require('cli-table3');
 
 const logInfo = ['name', 'owner', 'description', 'url', 'tags'];
 const table = new Table({

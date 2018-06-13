@@ -7,13 +7,14 @@
 
 一个脚手架市场命令行版:
 
-全家桶系列:
-- [server in leanCloud](https://github.com/cyseria/cherry-leancloud-server): 基于 leancloud 部署的测试服务
+全家桶:
 - [default server demo](https://github.com/cyseria/cherry-default-server): 一个基于 koa 起的本地服务, 暂时没有上数据库
 - [default web demo](https://github.com/cyseria/cherry-default-web): 一个可视化的 web 页面
+- server in leanCloud: 基于 leancloud 部署的测试服务
 
 ## Why cherry-cherry
 想着起这轮子的时候刚好在吃，觉得这单词很可爱 😀
+
 然而 npm 上的 cherry 已经被人占坑的, 为了方便记忆(懒得想名), 就变成了 `cherry-cherry`
 
 ## how to use
@@ -59,13 +60,16 @@ cherry publish <url>
 默认发布到默认 server 地址上, 如果使用自己搭建的 server, 需要实现以下几个接口
 
 - 获取简单列表
-    `${baseUrl}/simple-list`,返回脚手架列表里的标题信息, 数组对象, 例如 `['vue-vuex', 'react-mobx', 'riot-simple']`
+    `${baseUrl}/simple-list`,返回脚手架列表里的标题信息, 数组对象
+    例如 `['vue-vuex', 'react-mobx', 'riot-simple']`
 - 获取列表详情
-    `${baseUrl}/` 当参数为空时返回所有信息, 根据参数字段进行搜索匹配. 例如 `?name=react`
+    `${baseUrl}/` 当参数为空时返回所有信息, 根据参数字段进行搜索匹配
+    例如 `?name=react`
 - 发布数据
     `${baseUrl}/publish`, publish 时调用
 
 ## FEATURE
 
+- `cherry unpublish <url>`
 - `cherry login`
 - `cherry search <tag>`

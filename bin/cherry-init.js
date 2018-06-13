@@ -35,6 +35,7 @@ async function getScaffoldInfo(name) {
         return body;
     } catch (err) {
         console.log(chalk.red(err));
+        process.exit();
     }
 }
 
@@ -92,6 +93,7 @@ module.exports = async function (inputName, inputScaffold) {
         console.log(chalk.cyan(' Thanks for you using cherry scaffold 🍒'));
     } catch (err) {
         console.log(chalk.red(err));
+        process.exit();
     }
     process.exit();
 };

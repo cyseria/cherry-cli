@@ -90,7 +90,6 @@ async function getUserCheckedData(data) {
  */
 function getRepoDetail(owner, name) {
     const token = jsonFileOperate.get('token');
-    console.log('token', token)
     if (!token) {
         console.log(chalk.red('please add token first: \n cherry config set token <your github token>'));
         process.exit(1);
@@ -172,7 +171,6 @@ function publishData(data) {
         .post(API.publish)
         .send(data)
         .end((err, res) => {
-            console.log(res)
             if (err) {
                 console.log(chalk.red(err));
                 process.exit(1);

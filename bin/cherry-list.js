@@ -20,7 +20,7 @@ module.exports = async function (path, source) {
         } else {
             each(body, val => {
                 const { name, owner, description, url, tags } = val;
-                console.log(` ${chalk.blue('*' + name)}${chalk.gray(`(${owner})`)}: ${description}`);
+                console.log(`\n ${chalk.blue('*' + name)}${chalk.gray(`(${owner})`)}: ${description}`);
                 console.log(`   tags: ${tags}`);
                 console.log(`   url: ${url}`);
             });

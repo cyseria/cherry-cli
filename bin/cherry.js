@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 /**
  * @file 命令行入口文件
  * @author Cyseria <xcyseria@gmail.com>

@@ -68,6 +68,11 @@ cherry publish <url>
 - 发布数据
     `${baseUrl}/publish`, publish 时调用
 
+### 删除自己的脚手架
+```bash
+cherry unpublish <name>
+```
+
 ## FEATURE
 
 - `cherry login`

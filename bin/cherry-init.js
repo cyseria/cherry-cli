@@ -3,7 +3,7 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-07 23:43:46
  * @last modified by: Cyseria
- * @last modified time: 2018-06-12 00:24:18
+ * @last modified time: 2018-06-14 08:16:04
  */
 
 const nps = require('path');
@@ -16,6 +16,7 @@ const chalk = require('chalk');
 
 const API = require('./utils/api');
 
+// 获取脚手架列表
 async function getList() {
     try {
         console.log(chalk.gray('getting list from server...'));
@@ -24,10 +25,11 @@ async function getList() {
         return body;
     } catch (err) {
         console.log(chalk.red(err));
-        process.exit();
+        process.exit(1);
     }
 }
 
+// 根据脚手架名称从 server 获取信息列表
 async function getScaffoldInfo(name) {
     try {
         const res = await request.get(API.getList).query({ name: name });
@@ -35,7 +37,7 @@ async function getScaffoldInfo(name) {
         return body;
     } catch (err) {
         console.log(chalk.red(err));
-        process.exit();
+        process.exit(1);
     }
 }
 
@@ -81,7 +83,8 @@ module.exports = async function (inputName, inputScaffold) {
     }
 
     // 文件不存在，创建目录，copy data
-    const url = await getScaffoldInfo(scaffoldName).url;
+    const data = await getScaffoldInfo(scaffoldName);
+    const url = data.url;
     try {
         console.log(chalk.gray(`clone project from ${url}, please wait a min...`));
         
@@ -93,7 +96,7 @@ module.exports = async function (inputName, inputScaffold) {
         console.log(chalk.cyan(' Thanks for you using cherry scaffold 🍒'));
     } catch (err) {
         console.log(chalk.red(err));
-        process.exit();
+        process.exit(1);
     }
     process.exit();
 };

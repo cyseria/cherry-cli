@@ -70,6 +70,6 @@ cherry publish <url>
 
 ## FEATURE
 
-- `cherry unpublish <url>`
 - `cherry login`
 - `cherry search <tag>`
+- `cherry server switch`

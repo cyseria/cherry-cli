@@ -3,7 +3,7 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-07 22:37:25
  * @last modified by: Cyseria
- * @last modified time: 2018-06-11 23:27:37
+ * @last modified time: 2018-06-14 08:11:34
  */
 
 const program = require('commander');
@@ -41,6 +41,12 @@ program
         require('./cherry-publish')(url);
     });
 
+program
+    .command('unpublish [name]')
+    .description('unpublish your scffold 😄 ')
+    .action(function (name) {
+        require('./cherry-unpublish')(name);
+    });
 // 配置信息
 program
     .command('config [conf...]')

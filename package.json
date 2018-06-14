@@ -1,6 +1,6 @@
 {
   "name": "cherry-cherry",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "a scaffold market",
   "main": "index.js",
   "bin": {

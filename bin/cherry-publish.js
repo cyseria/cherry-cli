@@ -3,7 +3,7 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-09 21:49:31
  * @last modified by: Cyseria
- * @last modified time: 2018-06-12 00:30:01
+ * @last modified time: 2018-06-14 08:29:58
  */
 
 const url = require('url');
@@ -15,12 +15,19 @@ const GitHub = require('github-api');
 const API = require('./utils/api');
 const jsonFileOperate = require('./utils/jsonFileOperate');
 
+const isUrlExp = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+
 function trimSlash(path) {
     return path.charAt(0) === '/' ? path.slice(1) : path;
 }
 
 // 获取 publish 的 url 信息
 async function getUserInputUrl(url) {
+    const errorStr = 'Please enter a legal url from github or gitlab or iCode';
+    if (!!url && !isUrlExp.test(url)) {
+        console.log(chalk.red(errorStr));
+        url = '';
+    }
     const userInput = await inquirer.prompt([
         {
             type: 'input',
@@ -28,6 +35,9 @@ async function getUserInputUrl(url) {
             message: 'repo url(github or gitlab or iCode): ',
             when() {
                 return !url;
+            },
+            validate(value) {
+                return isUrlExp.test(value) ? true : errorStr;
             }
         }
     ]);
@@ -100,7 +110,16 @@ function getRepoDetail(owner, name) {
     });
 }
 
-// TODO: 支持 iCode 和 gitlab
+function getRepoInfoFromUrl(userInputUrl) {
+    const urlObj = url.parse(userInputUrl);
+    const pathname = trimSlash(urlObj.pathname);
+    const pathArr = pathname.split('/').filter(Boolean);
+    return {
+        name: pathArr[1],
+        owner: pathArr[0]
+    }
+}
+
 module.exports = async function (input) {
     const repoData = {
         name: '', // 项目名称
@@ -111,24 +130,40 @@ module.exports = async function (input) {
     };
 
     const userInputUrl = await getUserInputUrl(input);
-    // TODO: 验证 url
-    console.log(chalk.gray(`get data from ${userInputUrl}, please wait a min...`));
 
-    // 设置用户名和作者信息
-    const urlObj = url.parse(userInputUrl);
-    const pathname = trimSlash(urlObj.pathname);
-    const pathArr = pathname.split('/').filter(Boolean);
-    repoData.name = pathArr[1];
-    repoData.owner = pathArr[0];
+    if (userInputUrl.indexOf("github") > 0) { // github
+        console.log(chalk.gray(`get data from ${userInputUrl}, please wait a min...`));
 
-    // 获取 github repo 的基础信息
-    const repoDetail = await getRepoDetail(repoData.owner, repoData.name);
-    repoData.url = repoDetail.html_url;
-    repoData.description = repoDetail.description;
+        // 设置用户名和作者信息
+        const { name, owner } = getRepoInfoFromUrl(userInputUrl);
+        repoData.name = name;
+        repoData.owner = owner;
 
-    // 用户核对 github repo 信息
+        // 获取 github repo 的基础信息
+        const repoDetail = await getRepoDetail(repoData.owner, repoData.name);
+        repoData.url = repoDetail.html_url;
+        repoData.description = repoDetail.description;
+    } else if (userInputUrl.indexOf("gitlab") > 0) {
+        const { name, owner } = getRepoInfoFromUrl(userInputUrl);
+        repoData.url = userInputUrl;
+        repoData.name = name;
+        repoData.owner = owner;
+
+    } else if (userInputUrl.indexOf("icode") > 0) {
+        const urlObj = url.parse(userInputUrl);
+        const pathname = trimSlash(urlObj.pathname);
+        const pathArr = pathname.split('/').filter(Boolean);
+
+        repoData.name = pathArr[3];
+        repoData.url = userInputUrl;
+    } else {
+        console.log(chalk.red('暂时只支持 github, gitlab, icode 三个地方项目的发布, 你的链接不在此范围 :('));
+        process.exit(1);
+    }
+    // 用户核对 repo 信息
     const userCheckedData = await getUserCheckedData(repoData);
     publishData(userCheckedData);
+
 };
 
 
@@ -137,8 +172,10 @@ function publishData(data) {
         .post(API.publish)
         .send(data)
         .end((err, res) => {
+            console.log(res)
             if (err) {
                 console.log(chalk.red(err));
+                process.exit(1);
             }
             console.log(chalk.green(`publish ${data.name} success!`));
         });

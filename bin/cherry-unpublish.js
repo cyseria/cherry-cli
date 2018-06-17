@@ -3,7 +3,7 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-09 21:49:31
  * @last modified by: Cyseria
- * @last modified time: 2018-06-14 10:57:21
+ * @last modified time: 2018-06-17 15:57:54
  */
 
 const chalk = require('chalk');
@@ -33,9 +33,19 @@ async function getUserInputName(name) {
 
 module.exports = async function (name) {
     const userInputName = await getUserInputName(name);
-    unPublishData(userInputName);
+    const confirm = await inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'isUnpublish',
+            message: 'comfirm real unpublish:'
+        }
+    ]);
+    if (confirm.isUnpublish) {
+        unPublishData(userInputName);
+    } else {
+        process.exit(0);
+    }
 };
-
 
 function unPublishData(name) {
     request

@@ -3,7 +3,7 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-09 21:49:31
  * @last modified by: Cyseria
- * @last modified time: 2018-06-14 08:29:58
+ * @last modified time: 2018-06-19 21:41:13
  */
 
 const url = require('url');
@@ -12,7 +12,7 @@ const request = require('superagent');
 const inquirer = require('inquirer');
 const GitHub = require('github-api');
 
-const API = require('./utils/api');
+const API = require('./config/api');
 const jsonFileOperate = require('./utils/jsonFileOperate');
 
 const isUrlExp = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;

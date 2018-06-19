@@ -3,10 +3,10 @@
  * @author Cyseria <xcyseria@gmail.com> 
  * @created time: 2018-06-10 10:33:17 
  * @last modified by: Cyseria
- * @last modified time: 2018-06-14 08:12:29
+ * @last modified time: 2018-06-19 22:05:58
  */
 
-const jsonFileOperate = require('./jsonFileOperate');
+const jsonFileOperate = require('../utils/jsonFileOperate');
 
 const baseUrl = jsonFileOperate.get('server');
 module.exports = {

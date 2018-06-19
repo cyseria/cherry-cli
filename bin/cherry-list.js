@@ -3,12 +3,12 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-10 10:23:42
  * @last modified by: Cyseria
- * @last modified time: 2018-06-14 10:54:31
+ * @last modified time: 2018-06-19 21:40:51
  */
 
 const request = require('superagent');
 const chalk = require('chalk');
-const API = require('./utils/api');
+const API = require('./config/api');
 const each = require('./utils/each');
 
 module.exports = async function (path, source) {

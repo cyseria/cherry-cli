@@ -3,14 +3,14 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-09 21:49:31
  * @last modified by: Cyseria
- * @last modified time: 2018-06-17 15:57:54
+ * @last modified time: 2018-06-19 21:41:14
  */
 
 const chalk = require('chalk');
 const request = require('superagent');
 const inquirer = require('inquirer');
 
-const API = require('./utils/api');
+const API = require('./config/api');
 
 // 获取 unpublish repo's name 信息
 async function getUserInputName(name) {

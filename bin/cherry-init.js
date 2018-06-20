@@ -3,20 +3,22 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-07 23:43:46
  * @last modified by: Cyseria
- * @last modified time: 2018-06-19 23:34:32
+ * @last modified time: 2018-06-20 13:06:14
  */
 
 const nps = require('path');
-const { execSync, exec } = require('child_process');
-
 const fs = require('fs');
+
+const execa = require('execa');
 const fsExtra = require('fs-extra');
 const request = require('superagent');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 
 const API = require('./config/api');
+const cliInfo = require('./config/cliInfo');
 const pathOperate = require('./utils/pathOperate');
+const output = require('./utils/output');
 
 // 获取脚手架列表
 async function getList() {
@@ -26,8 +28,7 @@ async function getList() {
         const body = typeof res.body === 'string' ? JSON.parse(res.body) : res.body;
         return body;
     } catch (err) {
-        console.log(chalk.red(err));
-        process.exit(1);
+        output.handleErr(err);
     }
 }
 
@@ -38,13 +39,12 @@ async function getScaffoldInfo(name) {
         const body = typeof res.body === 'string' ? JSON.parse(res.body) : res.body;
         return body;
     } catch (err) {
-        console.log(chalk.red(err));
-        process.exit(1);
+        output.handleErr(err);
     }
 }
 
 // 获取用户输入的信息, 以及一些验证确保正确输入了 项目名称 和 使用的脚手架信息
-async function getFinalData(inputName, inputScaffold) {
+async function getInputInitData(inputName, inputScaffold) {
     const list = await getList();
     const userInput = await inquirer.prompt([
         {
@@ -73,38 +73,43 @@ async function getFinalData(inputName, inputScaffold) {
     return { projectName, scaffoldName };
 }
 
-const cliBin = {
-    'vue': {
-        cmd: 'vue-cli',
-        init: 'create'
-    },
-    // npx create-react-app my-app
-    'create-react-app': {}
-};
+// 获取 vue-cli 需要的 template 列表, 对于 vue 2.x 会使用这种该方法, 3.x 有改动, 等作者更新再看看是否更新
+// https://github.com/vuejs-templates
+async function getInputVueTemplate() {
+    const tplList = cliInfo['vue'].tplList;
+    const userInput = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'template',
+            message: 'choose a official templates: ',
+            choices: tplList
+        }
+    ]);
+    return userInput.template;
+}
+
 /**
  * 判断是否是命令式脚手架
  * @param {string} name 脚手架名称
+ * @return {boolean} 是否是命令式脚手架
  */
 function isOfficialCli(name) {
-    if (Object.keys(cliBin).indexOf(name) !== -1) {
+    if (cliInfo.hasOwnProperty(name)) {
         return true;
     }
-    const hasVal = Object.values(cliBin).some(ele => {
+    const hasVal = Object.values(cliInfo).some(ele => {
         if (ele.cmd === name) {
             return true;
         }
     });
-
     return hasVal || false;
 }
 
 module.exports = async function (inputName, inputScaffold) {
-
-    const { projectName, scaffoldName } = await getFinalData(inputName, inputScaffold);
+    const { projectName, scaffoldName } = await getInputInitData(inputName, inputScaffold);
     const path = projectName || process.cwd();
 
-    // 文件夹存在且不为空
-    // TODO: check if cover exists dir
+    // 文件夹存在且不为空, @todo: check if cover exists dir
     if (pathOperate.isDirectory(path)) {
         const dirContent = fs.readdirSync(path);
         if (dirContent.length > 0) {
@@ -113,54 +118,44 @@ module.exports = async function (inputName, inputScaffold) {
         }
     }
 
-    // cli 脚手架
+    // cli 脚手架, 暂时直接扔去官方的处理方式, 也可以考虑自己 copy
     if (isOfficialCli(scaffoldName)) {
         // 这里暂时使用 npx 做安装, 毕竟通常来说 node 带了 npm, 而 npm 5.2 之后就默认有 npx
-        // 对于如果只使用 yarn 的用户, 可以考虑等 ypx 成熟一点或者自己有空写替代方案
-        // https://github.com/yarnpkg/yarn/issues/3937
+        // 对于如果只使用 yarn 的用户, 可以考虑 "ypx" 成熟一点或者自己有空写替代方案 :)
+        let item;
+        if (cliInfo.hasOwnProperty(scaffoldName)) {
+            item = cliInfo[scaffoldName];
+        } else {
+            item = Object.values(cliInfo).find(ele => {
+                return ele.cmd === scaffoldName;
+            });
+        }
+        const cmd = item.cmd || scaffoldName;
+        const init = item.init || '';
+        let arvgs = [cmd, init, path];
+        if (cmd === 'vue-cli') {
+            const tplName = await getInputVueTemplate();
+            arvgs = [cmd, init, tplName, path];
+        }
+        await execa('npx', arvgs, { stdio: 'inherit' });
+        output.handleCreateSuccess(path, scaffoldName);
+    }
 
-        const cmd = cliBin[scaffoldName].cmd || scaffoldName;
-        const init = cliBin[scaffoldName].init || '';
-        // console.log(cmd)
-        const command = `npx ${cmd} ${init} ${path}`;
-        console.log(`exec ${command}, please wait a min...`);
-        var child = exec(command);
-
-        child.stdout.on('data', function (data) {
-            const log = data.replace(/\n/g, '');
-            if (log !== ''){
-                console.log(`[${cmd}] ${log}`);
-            }
-        });
-        child.stderr.on('data', function (data) {
-            console.log('err: ' + data);
-        });
-        child.on('close', function (code) {
-            if (code === 0){
-                console.log('success!')
-            }
-        });
-
-        // process.exit(1);
-        // console.log(chalk.cyan(`\n ${path} create success with ${scaffoldName}`));
-        // console.log(chalk.cyan(' Thanks for you using cherry scaffold 🍒'));
-        // process.exit(0);
-    } else {
-        // 市场存在的脚手架, 创建目录，copy data
+    // 市场存在的脚手架, 创建目录，copy data
+    else {
         const data = await getScaffoldInfo(scaffoldName);
         const url = data.url;
         try {
             console.log(chalk.gray(`clone project from ${url}, please wait a min...`));
-            execSync(`git clone ${url} ${projectName} `);
+            await execa('git', ['clone', url, projectName], { stdio: 'inherit' });
+
             // 移除 git 版本控制信息
             const destPath = nps.join(process.cwd(), projectName, '.git');
             fsExtra.removeSync(destPath);
-            console.log(chalk.cyan(`\n ${path} create success with ${scaffoldName}`));
-            console.log(chalk.cyan(' Thanks for you using cherry scaffold 🍒'));
+            output.handleCreateSuccess(path, scaffoldName);
         } catch (err) {
             console.log(chalk.red(err));
             process.exit(1);
         }
-        process.exit(0);
     }
 };

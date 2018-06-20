@@ -6,12 +6,13 @@
 [![NPM Downloads](https://img.shields.io/npm/dm/cherry-scaffold.svg?style=flat-square&maxAge=43200)](https://www.npmjs.com/package/cherry-scaffold)
 
 一个脚手架市场命令行版:
+- 集成主流的脚手架, 例如 `vue-cli`, `create-react-app` 等, 直接使用而无需全局安装, 可进行快速测试避免污染环境
+- 所有人都可以将自己得意的作品发布到市场中, 无论是 `github` 还是 `gitlab` 或 `iCode` 都能一键上传
 
 全家桶:
 - [default server demo](https://github.com/cyseria/cherry-default-server): 一个基于 koa 起的本地服务, 暂时没有上数据库
 - [default web demo](https://github.com/cyseria/cherry-default-web): 一个可视化的 web 页面
 - server in leanCloud: 基于 leancloud 部署的测试服务
-
 
 ## how to use
 脚手架初始化
@@ -29,9 +30,11 @@ sudo npm install cherry -g
 cherry init [path] [template]
 ```
 
-用现有的脚手架初始化一个, 例如使用 vue-cli 新建一个项目, 如果本地有 vue-cli 就会走本地, 没有会先在项目目录里面新建一个
+对于非内容型脚手架, 我们就不重复造轮子直接使用人家的
+例如使用 vue-cli 新建一个项目, 如果本地有 vue-cli 就会走本地, 没有会先在项目目录里面新建一个(嗯不用污染全局)
+
 ```bash
-# eg. cherry init demo vue-cli
+# eg. cherry init demo vue
 cherry init [path] [cli]
 ```
 
@@ -77,6 +80,13 @@ cherry publish <url>
 cherry unpublish <name>
 ```
 
+### 推荐官方的脚手架
+对于一些官方已经集成的脚手架, 为了避免重复造轮子, cherry 只是维护一份 list 做了个转发功能, 目前有的 list
+
+- [vue-cli](https://github.com/vuejs/vue-cli/tree/master)  (`cherry init [projenct-name] vue`)
+- [create-react-app](https://github.com/facebook/create-react-app) (`cherry init [projenct-name] create-react-app`)
+- [edam](https://imcuttle.github.io/edam/index_zh)
+
 ## FEATURE
 
 - `cherry login`
@@ -108,11 +118,15 @@ cherry unpublish <name>
 
 这时候就很需要一个平台去帮忙收集整理我们认可的推荐的产物, 方便自己下一次或者其他人第一次使用.
 
-最后, 希望大家都有造轮子的能力和不造轮子的觉悟.
+最后, 希望大家都有 **造轮子的能力和不造轮子的觉悟**.
 
 ### 为什么要使用 cherry 而不是市面上常见的脚手架例如 vue-cli, create-react-app 等?
 有时候我们可能不一定要全局安装 `xxx-cli`, 或者某些情况下我们没有办法进行全局的安装或者不想全局安装, 所以采用这种方式比运行 `./node_modules/.bin/xxx init` 会稍微快一点.
 
 ### 为什么要配置 github token 和 server
+github token 是用于获取 github 项目信息的, 主要是在 publish github 项目的时候使用, 未来可以考虑建立一个公用只读 token.
+
+server 主要是用来获取服务端数据, 履行 cli 单一职责的任务. 至于 web 和 server 是否拆分又是另外一个话题了 :)
+
 
 

@@ -3,7 +3,7 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-07 23:43:46
  * @last modified by: Cyseria
- * @last modified time: 2018-06-20 13:06:14
+ * @last modified time: 2018-06-20 15:12:38
  */
 
 const nps = require('path');
@@ -73,16 +73,14 @@ async function getInputInitData(inputName, inputScaffold) {
     return { projectName, scaffoldName };
 }
 
-// 获取 vue-cli 需要的 template 列表, 对于 vue 2.x 会使用这种该方法, 3.x 有改动, 等作者更新再看看是否更新
-// https://github.com/vuejs-templates
-async function getInputVueTemplate() {
-    const tplList = cliInfo['vue'].tplList;
+
+async function getInputTemplateList(name, list) {
     const userInput = await inquirer.prompt([
         {
             type: 'list',
             name: 'template',
-            message: 'choose a official templates: ',
-            choices: tplList
+            message: `use ${name}, choose an official templates: `,
+            choices: list
         }
     ]);
     return userInput.template;
@@ -109,7 +107,7 @@ module.exports = async function (inputName, inputScaffold) {
     const { projectName, scaffoldName } = await getInputInitData(inputName, inputScaffold);
     const path = projectName || process.cwd();
 
-    // 文件夹存在且不为空, @todo: check if cover exists dir
+    // 文件夹存在且不为空, TODO: check if cover exists dir
     if (pathOperate.isDirectory(path)) {
         const dirContent = fs.readdirSync(path);
         if (dirContent.length > 0) {
@@ -130,13 +128,13 @@ module.exports = async function (inputName, inputScaffold) {
                 return ele.cmd === scaffoldName;
             });
         }
-        const cmd = item.cmd || scaffoldName;
-        const init = item.init || '';
-        let arvgs = [cmd, init, path];
-        if (cmd === 'vue-cli') {
-            const tplName = await getInputVueTemplate();
-            arvgs = [cmd, init, tplName, path];
+
+        let tplName = '';
+        if (!!item.tplList) {
+            tplName = await getInputTemplateList(item.cmd, item.tplList);
         }
+        const cliName = item.cmd || scaffoldName;
+        arvgs = item.initArvgs(cliName, tplName);
         await execa('npx', arvgs, { stdio: 'inherit' });
         output.handleCreateSuccess(path, scaffoldName);
     }

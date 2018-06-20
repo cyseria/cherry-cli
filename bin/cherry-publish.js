@@ -3,7 +3,7 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-09 21:49:31
  * @last modified by: Cyseria
- * @last modified time: 2018-06-19 21:41:13
+ * @last modified time: 2018-06-20 13:30:45
  */
 
 const url = require('url');
@@ -52,7 +52,11 @@ async function getUserCheckedData(data) {
             type: 'input',
             name: 'name',
             message: 'repo name:',
-            default: data.name
+            default: data.name,
+            validate(value) {
+                // TODO: 重复命名的检查(官方已存在的, 例如 vue-cli 不能占用)
+                return true;
+            }
         },
         {
             type: 'input',
@@ -116,7 +120,7 @@ function getRepoInfoFromUrl(userInputUrl) {
     return {
         name: pathArr[1],
         owner: pathArr[0]
-    }
+    };
 }
 
 module.exports = async function (input) {
@@ -130,7 +134,7 @@ module.exports = async function (input) {
 
     const userInputUrl = await getUserInputUrl(input);
 
-    if (userInputUrl.indexOf("github") > 0) { // github
+    if (userInputUrl.indexOf('github') > 0) { // github
         console.log(chalk.gray(`get data from ${userInputUrl}, please wait a min...`));
 
         // 设置用户名和作者信息
@@ -142,13 +146,13 @@ module.exports = async function (input) {
         const repoDetail = await getRepoDetail(repoData.owner, repoData.name);
         repoData.url = repoDetail.html_url;
         repoData.description = repoDetail.description;
-    } else if (userInputUrl.indexOf("gitlab") > 0) {
+    } else if (userInputUrl.indexOf('gitlab') > 0) {
         const { name, owner } = getRepoInfoFromUrl(userInputUrl);
         repoData.url = userInputUrl;
         repoData.name = name;
         repoData.owner = owner;
 
-    } else if (userInputUrl.indexOf("icode") > 0) {
+    } else if (userInputUrl.indexOf('icode') > 0) {
         const urlObj = url.parse(userInputUrl);
         const pathname = trimSlash(urlObj.pathname);
         const pathArr = pathname.split('/').filter(Boolean);

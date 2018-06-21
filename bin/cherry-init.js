@@ -3,7 +3,7 @@
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-07 23:43:46
  * @last modified by: Cyseria
- * @last modified time: 2018-06-20 15:12:38
+ * @last modified time: 2018-06-20 15:16:10
  */
 
 const nps = require('path');
@@ -134,7 +134,7 @@ module.exports = async function (inputName, inputScaffold) {
             tplName = await getInputTemplateList(item.cmd, item.tplList);
         }
         const cliName = item.cmd || scaffoldName;
-        arvgs = item.initArvgs(cliName, tplName);
+        const arvgs = item.initArvgs(cliName, tplName);
         await execa('npx', arvgs, { stdio: 'inherit' });
         output.handleCreateSuccess(path, scaffoldName);
     }

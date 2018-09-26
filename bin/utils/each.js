@@ -1,9 +1,7 @@
 /**
  * @file 
  * @author Cyseria <xcyseria@gmail.com> 
- * @created time: 2018-06-10 15:20:59 
- * @last modified by: Cyseria
- * @last modified time: 2018-06-10 15:21:15
+ * @created time: 2018-06-10 15:20:59
  */
 
 module.exports = function (data, cb) {

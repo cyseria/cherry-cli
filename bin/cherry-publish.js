@@ -2,8 +2,6 @@
  * @file 发布脚手架
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-09 21:49:31
- * @last modified by: Cyseria
- * @last modified time: 2018-06-20 13:30:45
  */
 
 const url = require('url');

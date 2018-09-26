@@ -1,9 +1,7 @@
 /**
  * @file 一些配置相关
  * @author Cyseria <xcyseria@gmail.com> 
- * @created time: 2018-06-11 21:33:00 
- * @last modified by: Cyseria
- * @last modified time: 2018-06-12 00:34:48
+ * @created time: 2018-06-11 21:33:00
  */
 
 

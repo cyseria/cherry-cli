@@ -1,9 +1,7 @@
 /**
  * @file server 的一些 api 路径信息
  * @author Cyseria <xcyseria@gmail.com> 
- * @created time: 2018-06-10 10:33:17 
- * @last modified by: Cyseria
- * @last modified time: 2018-06-19 22:05:58
+ * @created time: 2018-06-10 10:33:17
  */
 
 const jsonFileOperate = require('../utils/jsonFileOperate');

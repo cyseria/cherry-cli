@@ -1,9 +1,7 @@
 /**
  * @file json 文件操作相关, 主要是 config 的配置( ~/.cherry)
  * @author Cyseria <xcyseria@gmail.com> 
- * @created time: 2018-06-10 19:00:15 
- * @last modified by: Cyseria
- * @last modified time: 2018-06-12 00:32:18
+ * @created time: 2018-06-10 19:00:15
  */
 
 const os = require('os');

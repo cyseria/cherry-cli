@@ -2,8 +2,6 @@
  * @file 取消发布脚手架
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-09 21:49:31
- * @last modified by: Cyseria
- * @last modified time: 2018-06-19 21:41:14
  */
 
 const chalk = require('chalk');

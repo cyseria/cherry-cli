@@ -2,8 +2,6 @@
  * @file 获取列表信息
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-10 10:23:42
- * @last modified by: Cyseria
- * @last modified time: 2018-06-19 21:40:51
  */
 
 const request = require('superagent');

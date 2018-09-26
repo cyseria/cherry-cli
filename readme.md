@@ -1,9 +1,9 @@
-# CHERRY-CHERRY
+# 🍒 CHERRY-CHERRY
 
-[![build status](https://img.shields.io/travis/cyseria/cherry-scaffold/master.svg?style=flat-square)](https://travis-ci.org/cyseria/cherry-scaffold)
-[![Test coverage](https://img.shields.io/codecov/c/github/cyseria/cherry-scaffold.svg?style=flat-square)](https://codecov.io/github/cyseria/cherry-scaffold?branch=master)
-[![NPM version](https://img.shields.io/npm/v/cherry-scaffold.svg?style=flat-square)](https://www.npmjs.com/package/cherry-scaffold)
-[![NPM Downloads](https://img.shields.io/npm/dm/cherry-scaffold.svg?style=flat-square&maxAge=43200)](https://www.npmjs.com/package/cherry-scaffold)
+[![build status](https://img.shields.io/travis/cyseria/cherry-cherry/master.svg?style=flat-square)](https://travis-ci.org/cyseria/cherry-cherry)
+[![Test coverage](https://img.shields.io/codecov/c/github/cyseria/cherry-cherry.svg?style=flat-square)](https://codecov.io/github/cyseria/cherry-cherry?branch=master)
+[![NPM version](https://img.shields.io/npm/v/cherry-cherry.svg?style=flat-square)](https://www.npmjs.com/package/cherry-cherry)
+[![NPM Downloads](https://img.shields.io/npm/dm/cherry-cherry.svg?style=flat-square&maxAge=43200)](https://www.npmjs.com/package/cherry-cherry)
 
 一个脚手架市场命令行版:
 - 集成主流的脚手架, 例如 `vue-cli`, `create-react-app` 等, 直接使用而无需全局安装, 可进行快速测试避免污染环境
@@ -22,6 +22,23 @@
 sudo npm install cherry -g
 ```
 
+### 配置项目基础信息
+```bash
+cherry config set <key> <value>
+cherry config list
+cherry config delete <key>
+```
+
+⚠️ 使用之前需要配置 `github token`, 和 `server` 地址信息
+
+```bash
+cherry config set token <your github token>
+cherry config set server <your server address>
+```
+
+eg. `cherry config set server 'http://localhost:8008/cherry'`
+
+
 ### 初始化
 
 从市场上的脚手架初始化一个项目
@@ -37,22 +54,6 @@ cherry init [path] [template]
 # eg. cherry init demo vue
 cherry init [path] [cli]
 ```
-
-### 配置项目基础信息
-```bash
-cherry config set <key> <value>
-cherry config list
-cherry config delete <key>
-```
-
-通常我们需要配置的是 `github token`, 和 `server` 地址信息
-
-```bash
-cherry config set token <your github token>
-cherry config set server <your server address>
-```
-
-eg. `cherry config set server 'http://localhost:3000/cherry'`
 
 ### 查看所有脚手架
 ```bash
@@ -83,9 +84,9 @@ cherry unpublish <name>
 ### 推荐官方的脚手架
 对于一些官方已经集成的脚手架, 为了避免重复造轮子, cherry 只是维护一份 list 做了个转发功能, 目前有的 list
 
-- [vue-cli](https://github.com/vuejs/vue-cli/tree/master)  (`cherry init [projenct-name] vue`)
-- [create-react-app](https://github.com/facebook/create-react-app) (`cherry init [projenct-name] create-react-app`)
-- [edam](https://imcuttle.github.io/edam/index_zh)
+-[x] [vue-cli](https://github.com/vuejs/vue-cli/tree/master)  (`cherry init [projenct-name] vue`)
+-[x] [create-react-app](https://github.com/facebook/create-react-app) (`cherry init [projenct-name] create-react-app`)
+-[ ] [edam](https://imcuttle.github.io/edam/index_zh)
 
 ## FEATURE
 

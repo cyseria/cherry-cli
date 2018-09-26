@@ -2,8 +2,6 @@
  * @file 初始化文件，将 tmp 移动到自己 init 的项目中
  * @author Cyseria <xcyseria@gmail.com>
  * @created time: 2018-06-07 23:43:46
- * @last modified by: Cyseria
- * @last modified time: 2018-06-20 15:16:10
  */
 
 const nps = require('path');
@@ -26,6 +24,13 @@ async function getList() {
         console.log(chalk.gray('getting list from server...'));
         const res = await request.get(API.getSimpleList);
         const body = typeof res.body === 'string' ? JSON.parse(res.body) : res.body;
+        if (!Array.isArray(body)) {
+            process.exit(1);
+        }
+        if (body.length === 0) {
+            console.log(chalk.yellow('the list is empty, use "cherry publish <url>" to publish something first'));
+            process.exit(1);
+        }
         return body;
     } catch (err) {
         output.handleErr(err);
@@ -144,7 +149,6 @@ module.exports = async function (inputName, inputScaffold) {
         const data = await getScaffoldInfo(scaffoldName);
         const url = data.url;
         try {
-            console.log(chalk.gray(`clone project from ${url}, please wait a min...`));
             await execa('git', ['clone', url, projectName], { stdio: 'inherit' });
 
             // 移除 git 版本控制信息

@@ -19,7 +19,7 @@
 
 ### 安装
 ```
-sudo npm install cherry -g
+sudo npm install cherry-cherry -g
 ```
 
 ### 配置项目基础信息

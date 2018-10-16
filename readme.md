@@ -49,7 +49,7 @@ eg. `cherry config set server 'http://localhost:8008/cherry'`
 从市场上的脚手架初始化一个项目
 ```bash
 # 初始化项目，支持创建多层级的文件夹 init demo/a/b/c
-cherry init [path] [template]
+cherry init [project name] [template]
 ```
 
 对于非内容型脚手架, 我们就不重复造轮子直接使用人家的
@@ -57,7 +57,7 @@ cherry init [path] [template]
 
 ```bash
 # eg. cherry init demo vue
-cherry init [path] [cli]
+cherry init [project name] [cli]
 ```
 
 ### 查看所有脚手架

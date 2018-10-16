@@ -11,6 +11,8 @@ const nps = require('path');
 const configPath = nps.join(os.homedir(), '.cherry');
 module.exports = {
     set(key, value) {
+        fsExtra.ensureFileSync(configPath);
+
         const newObj = {};
         newObj[key] = value;
 

@@ -60,25 +60,25 @@ async function getUserCheckedData(data) {
             type: 'input',
             name: 'owner',
             message: 'author:',
-            default: data.owner
+            default: data.owner || ''
         },
         {
             type: 'input',
             name: 'description',
             message: 'description:',
-            default: data.description
+            default: data.description || ''
         },
         {
             type: 'input',
             name: 'url',
             message: 'repo url:',
-            default: data.url
+            default: data.url || ''
         },
         {
             type: 'input',
             name: 'tags',
             message: 'tags，逗号分割:',
-            default: ''
+            default: data.tags || ''
         }
     ]);
     return userInput;
@@ -122,7 +122,7 @@ function getRepoInfoFromUrl(userInputUrl) {
 }
 
 module.exports = async function (input) {
-    const repoData = {
+    let repoData = {
         name: '', // 项目名称
         owner: '', // 作者
         description: '', // 项目描述
@@ -161,11 +161,41 @@ module.exports = async function (input) {
         console.log(chalk.red('暂时只支持 github, gitlab, icode 三个地方项目的发布, 你的链接不在此范围 :('));
         process.exit(1);
     }
+
+    // 根据 url 确认项目信息是否存在，如果存在提示
+    const exsitData = await checkRepeat(repoData);
+    if(exsitData) {
+        repoData = exsitData;
+    }
+
     // 用户核对 repo 信息
     const userCheckedData = await getUserCheckedData(repoData);
     publishData(userCheckedData);
-
 };
+
+async function checkRepeat(repo) {
+    const res = await request.get(API.getList);
+    const list = typeof res.body === 'string' ? JSON.parse(res.body) : res.body;
+
+    // 根据 url 检查是否重复
+    const repoHistory = Object.keys(list).find(name => {
+        return list[name].url === repo.url;
+    })
+    if (!repoHistory) {
+        return false;
+    }
+    const userInput = await inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'override',
+            message: `repo ${repo.name} is exist, override it?`,
+        }
+    ]);
+    if (!userInput.override) {
+        process.exit(0);
+    }
+    return list[repoHistory];
+}
 
 
 function publishData(data) {

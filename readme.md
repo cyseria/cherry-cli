@@ -29,10 +29,15 @@ cherry config list
 cherry config delete <key>
 ```
 
-⚠️ 使用之前需要配置 `github token`, 和 `server` 地址信息
+⚠️ 使用之前需要配置 [`github token`](https://github.com/settings/tokens), 需要提供的 repo & user 的 scopes
 
 ```bash
 cherry config set token <your github token>
+```
+
+配置 `server` 地址信息
+
+```bash
 cherry config set server <your server address>
 ```
 
